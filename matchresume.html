@@ -1,0 +1,86 @@
+<!DOCTYPE html> <!-- Specifies the document type and version of HTML -->
+<html lang="en"> <!-- Defines the language of the document as English -->
+<head>
+    <!-- Meta tags for character set and viewport settings -->
+    <meta charset="UTF-8"> <!-- Sets the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures the page is responsive and scales correctly on different devices -->
+    <title>Resume Matcher</title> <!-- Sets the title of the webpage -->
+
+    <!-- Including Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom styles for the page -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background color for the body */
+        }
+        .container {
+            margin-top: 50px; /* Margin at the top of the container */
+        }
+        .card {
+            padding: 20px; /* Padding inside the card */
+            border-radius: 10px; /* Rounded corners for the card */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Light shadow effect */
+        }
+        .card-header {
+            background-color: #007bff; /* Blue background color for the card header */
+            color: white; /* White text color */
+            border-radius: 10px 10px 0 0; /* Rounded corners at the top of the card */
+            padding: 10px 20px; /* Padding inside the card header */
+        }
+        .card-body {
+            padding: 20px; /* Padding inside the card body */
+        }
+        .form-group {
+            margin-bottom: 1.5rem; /* Margin at the bottom of form groups */
+        }
+    </style>
+</head>
+<body>
+    <div class="container"> <!-- A Bootstrap container to center and provide padding around the content -->
+        <!-- Card component to hold the form -->
+        <div class="card">
+            <!-- Card header with centered text -->
+            <div class="card-header text-center">
+                <h2>Job Description and Resume Matcher</h2>
+            </div>
+            <!-- Card body containing the form -->
+            <div class="card-body">
+                <!-- Form element with POST method, action URL, and file upload support -->
+                <form method="POST" action="/matcher" enctype="multipart/form-data">
+                    <!-- Form group for job description input -->
+                    <div class="form-group">
+                        <label for="job_description">Job Description:</label>
+                        <textarea class="form-control" id="job_description" name="job_description" rows="5" required></textarea>
+                    </div>
+                    <!-- Form group for resume file upload -->
+                    <div class="form-group">
+                        <label for="resumes">Upload Resumes:</label>
+                        <p>Please Upload Resumes More than 5...........</p>
+                        <input type="file" class="form-control" id="resumes" name="resumes" multiple required accept=".pdf, .docx, .txt">
+                    </div>
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary">Match Resumes</button>
+                </form>
+                <!-- Conditional block to display messages if any are available -->
+                {% if message %}
+                    <div class="alert alert-info mt-4">
+                        <p>{{ message }}</p>
+                        <ul>
+                            <!-- Loop through the top resumes and their similarity scores -->
+                            {% for index in range(top_resumes|length) %}
+                                <li>{{ top_resumes[index] }} (Similarity Score: {{ similarity_scores[index] }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Including necessary JavaScript libraries for Bootstrap functionality -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
